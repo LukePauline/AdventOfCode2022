@@ -1,12 +1,12 @@
 ﻿using AdventOfCode2022;
 using static AdventOfCode2022.InputHelpers;
 
-IDay day = new Day1();
+IDay day = new Day2();
 
 using StreamReader test = ConvertStringToStream(day.TestInput);
-using StreamReader input = await GetInput(day.Day);
-
 int ex1Test = day.Exercise1(test);
+
+using StreamReader input = await GetInput(day.Day);
 
 Console.WriteLine("--- Exercise 1 ---");
 Console.WriteLine();
