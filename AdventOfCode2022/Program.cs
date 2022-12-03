@@ -1,7 +1,7 @@
 ﻿using AdventOfCode2022;
 using static AdventOfCode2022.InputHelpers;
 
-IDay day = new Day2();
+IDay day = new Day3();
 
 using StreamReader test = ConvertStringToStream(day.TestInput);
 int ex1Test = day.Exercise1(test);
