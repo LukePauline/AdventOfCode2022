@@ -15,16 +15,16 @@ ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw
 """;
 
-        public int Ex1TestResult => 157;
+        public string Ex1TestResult => "157";
 
-        public int Ex2TestResult => 70;
+        public string Ex2TestResult => "70";
 
-        public int Exercise1(StreamReader input)
+        public string Exercise1(StreamReader input)
         {
             return ParseEx1(input).Sum(GetItemPriority);
         }
 
-        public int Exercise2(StreamReader input)
+        public string Exercise2(StreamReader input)
         {
             return ParseEx2(input).Sum(GetItemPriority);
         }

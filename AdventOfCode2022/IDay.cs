@@ -5,10 +5,10 @@ namespace AdventOfCode2022
     {
         int Day { get; }
         string TestInput { get; }
-        int Ex1TestResult { get; }
-        int Ex2TestResult { get; }
+        string Ex1TestResult { get; }
+        string Ex2TestResult { get; }
 
-        int Exercise1(StreamReader input);
-        int Exercise2(StreamReader input);
+        string Exercise1(StreamReader input);
+        string Exercise2(StreamReader input);
     }
 }

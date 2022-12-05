@@ -23,19 +23,19 @@ namespace AdventOfCode2022
 9000
 
 10000";
-        public int Ex1TestResult { get; } = 24000;
-        public int Ex2TestResult { get; } = 45000;
+        public string Ex1TestResult { get; } = "24000";
+        public string Ex2TestResult { get; } = "45000";
 
-        public int Exercise1(StreamReader input)
+        public string Exercise1(StreamReader input)
         {
             var elves = GetElves(input);
-            return elves.Select(x => x.Sum()).Max();
+            return elves.Select(x => x.Sum()).Max().ToString();
         }
 
-        public int Exercise2(StreamReader input)
+        public string Exercise2(StreamReader input)
         {
             var elves = GetElves(input).ToList();
-            return elves.Select(x => x.Sum()).OrderByDescending(x => x).Take(3).Sum();
+            return elves.Select(x => x.Sum()).OrderByDescending(x => x).Take(3).Sum().ToString();
         }
 
         private IEnumerable<List<int>> GetElves(StreamReader input)
