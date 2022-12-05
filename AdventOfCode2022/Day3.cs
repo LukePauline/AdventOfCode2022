@@ -7,13 +7,13 @@ namespace AdventOfCode2022
         public int Day => 3;
 
         public string TestInput => """
-vJrwpWtwJgWrhcsFMMfFFhFp
-jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
-PmmdzqPrVvPwwTWBwg
-wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
-ttgJtRGJQctTZtZT
-CrZsJsPPZsGzwwsLwLmpwMDw
-""";
+            vJrwpWtwJgWrhcsFMMfFFhFp
+            jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+            PmmdzqPrVvPwwTWBwg
+            wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+            ttgJtRGJQctTZtZT
+            CrZsJsPPZsGzwwsLwLmpwMDw
+            """;
 
         public string Ex1TestResult => "157";
 
@@ -21,12 +21,12 @@ CrZsJsPPZsGzwwsLwLmpwMDw
 
         public string Exercise1(StreamReader input)
         {
-            return ParseEx1(input).Sum(GetItemPriority);
+            return ParseEx1(input).Sum(GetItemPriority).ToString();
         }
 
         public string Exercise2(StreamReader input)
         {
-            return ParseEx2(input).Sum(GetItemPriority);
+            return ParseEx2(input).Sum(GetItemPriority).ToString();
         }
 
         private int GetItemPriority(char item)

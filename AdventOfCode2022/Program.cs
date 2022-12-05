@@ -2,13 +2,15 @@
 using System.Reflection;
 using static AdventOfCode2022.InputHelpers;
 
+int dayNo = DateTime.UtcNow.Day;
+
 Assembly assembly = Assembly.GetExecutingAssembly();
-Type tDay = assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(IDay))).Single(t => t.Name == $"Day{DateTime.UtcNow.Day}");
+Type tDay = assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(IDay))).Single(t => t.Name == $"Day{dayNo}");
 
 IDay day = (IDay)Activator.CreateInstance(tDay);
 
 using StreamReader test = ConvertStringToStream(day.TestInput);
-int ex1Test = day.Exercise1(test);
+string ex1Test = day.Exercise1(test);
 
 using StreamReader input = await GetInput(day.Day);
 
@@ -28,7 +30,7 @@ Console.WriteLine();
 
 test.BaseStream.Position = 0;
 input.BaseStream.Position = 0;
-int ex2Test = day.Exercise2(test);
+string ex2Test = day.Exercise2(test);
 
 Console.WriteLine("--- Exercise 2 ---");
 Console.WriteLine();
