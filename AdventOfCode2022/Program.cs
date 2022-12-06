@@ -28,17 +28,21 @@ Console.WriteLine(day.Exercise1(input));
 Console.WriteLine();
 Console.WriteLine();
 
-test.BaseStream.Position = 0;
-input.BaseStream.Position = 0;
-string ex2Test = day.Exercise2(test);
+try
+{
+    test.BaseStream.Position = 0;
+    input.BaseStream.Position = 0;
+    string ex2Test = day.Exercise2(test);
 
-Console.WriteLine("--- Exercise 2 ---");
-Console.WriteLine();
+    Console.WriteLine("--- Exercise 2 ---");
+    Console.WriteLine();
 
-Console.WriteLine("Test:");
-Console.WriteLine(ex2Test);
-Console.WriteLine(ex2Test == day.Ex2TestResult ? "PASS" : "FAIL");
-Console.WriteLine();
+    Console.WriteLine("Test:");
+    Console.WriteLine(ex2Test);
+    Console.WriteLine(ex2Test == day.Ex2TestResult ? "PASS" : "FAIL");
+    Console.WriteLine();
 
-Console.WriteLine("Answer");
-Console.WriteLine(day.Exercise2(input));
+    Console.WriteLine("Answer");
+    Console.WriteLine(day.Exercise2(input));
+}
+catch (NotImplementedException) { }
