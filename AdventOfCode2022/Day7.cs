@@ -77,34 +77,26 @@ namespace AdventOfCode2022
             while (!input.EndOfStream)
             {
                 string line = input.ReadLine();
-                if (line[0] == '$')
+
+                if (line[0] != '$')
+                    throw new InvalidOperationException("expecting command");
+
+                Command cmd = Command.Parse(line);
+                if (cmd.Operation == Operation.cd)
                 {
-                    Command cmd = Command.Parse(line);
-                    if (cmd.Operation == Operation.cd)
+                    currentDirectory = cmd.Parameter switch
                     {
-                        switch (cmd.Parameter)
-                        {
-                            case "..":
-                                currentDirectory = currentDirectory.Parent;
-                                break;
-                            case "/":
-                                currentDirectory = root;
-                                break;
-                            default:
-                                currentDirectory = (currentDirectory.Children?
-                                    .Where(x => x is Directiory)
-                                    .Single(x => x.Name == cmd.Parameter) as Directiory)
-                                    ?? throw new InvalidOperationException($"subdirectory {cmd.Parameter} not found");
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        currentDirectory.Children ??= Ls(input, currentDirectory).ToList();
-                    }
+                        ".." => currentDirectory.Parent,
+                        "/" => root,
+                        _ => (currentDirectory.Children?.Where(x => x is Directiory)
+                                                        .Single(x => x.Name == cmd.Parameter) as Directiory)
+                                                        ?? throw new InvalidOperationException($"subdirectory {cmd.Parameter} not found"),
+                    };
                 }
                 else
-                    throw new InvalidOperationException("expecting command");
+                {
+                    currentDirectory.Children ??= Ls(input, currentDirectory).ToList();
+                }
             }
             return root;
         }
