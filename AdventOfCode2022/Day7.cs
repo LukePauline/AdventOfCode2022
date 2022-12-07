@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode2022
@@ -89,7 +88,7 @@ namespace AdventOfCode2022
                         ".." => currentDirectory.Parent,
                         "/" => root,
                         _ => (currentDirectory.Children?.Where(x => x is Directiory)
-                                                        .Single(x => x.Name == cmd.Parameter) as Directiory)
+                                                        .SingleOrDefault(x => x.Name == cmd.Parameter) as Directiory)
                                                         ?? throw new InvalidOperationException($"subdirectory {cmd.Parameter} not found"),
                     };
                 }
