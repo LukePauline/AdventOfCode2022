@@ -24,27 +24,26 @@ namespace AdventOfCode2022
 
         public string Ex1TestResult => "13";
 
-        public string Ex2TestResult => throw new NotImplementedException();
+        public string Ex2TestResult => "1";
 
         public string Exercise1(StreamReader input)
         {
             IEnumerable<Move> moves = Parse(input);
-            IEnumerable<Point> tailPositions = TrackTail(moves);
+            IEnumerable<Point> tailPositions = TrackRope(moves, 2);
             return tailPositions.Distinct().Count().ToString();
         }
 
         public string Exercise2(StreamReader input)
         {
             IEnumerable<Move> moves = Parse(input);
-            IEnumerable<Point> tailPositions = TrackTail(moves);
+            IEnumerable<Point> tailPositions = TrackRope(moves, 10);
             return tailPositions.Distinct().Count().ToString();
         }
 
-        private IEnumerable<Point> TrackTail(IEnumerable<Move> moves)
+        private IEnumerable<Point> TrackRope(IEnumerable<Move> moves, int length)
         {
             // Initial conditions
-            Point head = new(0, 0);
-            Point tail = new(0, 0);
+            Point[] knots = Enumerable.Repeat(new Point(0, 0), length).ToArray();
 
             foreach (var move in moves)
             {
@@ -54,30 +53,39 @@ namespace AdventOfCode2022
                     switch (move.Direction)
                     {
                         case Direction.Up:
-                            head.Y++;
+                            knots[0].Y++;
                             break;
                         case Direction.Down:
-                            head.Y--;
+                            knots[0].Y--;
                             break;
                         case Direction.Left:
-                            head.X--;
+                            knots[0].X--;
                             break;
                         case Direction.Right:
-                            head.X++;
+                            knots[0].X++;
                             break;
                     }
 
-                    // move tail
-                    tail = (head.X - tail.X, head.Y - tail.Y) switch
+                    for (int j = 1; j < knots.Length; j++)
                     {
-                        (2, _) => new(tail.X + 1, head.Y),
-                        (-2, _) => new(tail.X - 1, head.Y),
-                        (_, 2) => new(head.X, tail.Y + 1),
-                        (_, -2) => new(head.X, tail.Y - 1),
-                        _ => tail
-                    };
+                        Point head = knots[j - 1];
+                        Point tail = knots[j];
 
-                    yield return tail;
+                        knots[j] = (head.X - tail.X, head.Y - tail.Y) switch
+                        {
+                            (2, 2) => new(tail.X + 1, tail.Y + 1),
+                            (2, -2) => new(tail.X + 1, tail.Y - 1),
+                            (-2, 2) => new(tail.X - 1, tail.Y + 1),
+                            (-2, -2) => new(tail.X - 1, tail.Y - 1),
+                            (2, _) => new(tail.X + 1, head.Y),
+                            (-2, _) => new(tail.X - 1, head.Y),
+                            (_, 2) => new(head.X, tail.Y + 1),
+                            (_, -2) => new(head.X, tail.Y - 1),
+                            _ => tail
+                        };
+                    }
+
+                    yield return knots.Last();
                 }
             }
         }
