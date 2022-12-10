@@ -35,5 +35,19 @@ namespace AdventOfCode2022
                 input[i, y] = value[i];
             }
         }
+
+        public static string Render<T>(this T[,] values)
+        {
+            StringBuilder output = new();
+            for (int y = 0; y < values.GetLength(1); y++)
+            {
+                for (int x = 0; x < values.GetLength(0); x++)
+                {
+                    output.Append(values[x, y]);
+                }
+                output.AppendLine();
+            }
+            return output.ToString();
+        }
     }
 }
