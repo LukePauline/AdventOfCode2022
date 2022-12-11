@@ -39,7 +39,7 @@ namespace AdventOfCode2022
 
         public string Ex1TestResult => "10605";
 
-        public string Ex2TestResult => throw new NotImplementedException();
+        public string Ex2TestResult => "2713310158";
 
         public string Exercise1(StreamReader input)
         {
@@ -57,7 +57,17 @@ namespace AdventOfCode2022
 
         public string Exercise2(StreamReader input)
         {
-            throw new NotImplementedException();
+            var monkeys = Parse(input);
+            Monkey.MaxWorry = monkeys.Select(x => x.Value.TestNum).Aggregate(1, (a, b) => a * b);
+            long[] inspections = new long[monkeys.Count];
+            for (int round = 0; round < 10000; round++)
+            {
+                for (int m = 0; m < monkeys.Count; m++)
+                {
+                    inspections[m] += monkeys[m].InpsectItemsEx2(monkeys);
+                }
+            }
+            return inspections.OrderByDescending(x => x).Take(2).Aggregate(1, (long a, long b) => a * b).ToString();
         }
 
         private Dictionary<int, Monkey> Parse(StreamReader input)
@@ -70,11 +80,15 @@ namespace AdventOfCode2022
         private class Monkey
         {
             public int Id { get; set; }
-            public List<int> Items { get; set; }
-            public Func<int, int> Operation { get; set; }
-            public Func<int, bool> Test { get; set; }
+            public List<long> Items { get; set; }
+            public Func<long, long> Operation { get; set; }
+            public int TestNum { get; set; }
             public int TrueThrow { get; set; }
             public int FalseThrow { get; set; }
+
+            public static long MaxWorry { get; set; } = 0;
+
+            public bool Test(long item) => item % TestNum == 0;
 
             public int InpsectItems(Dictionary<int, Monkey> monkeys)
             {
@@ -91,6 +105,24 @@ namespace AdventOfCode2022
                 Items.Clear();
                 return inspections;
             }
+            public int InpsectItemsEx2(Dictionary<int, Monkey> monkeys)
+            {
+                int inspections = Items.Count;
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    Items[i] = Operation(Items[i]);
+                    if (Test(Items[i]))
+                    {
+                        monkeys[TrueThrow].Items.Add(Items[i] % MaxWorry);
+                    }
+                    else
+                    {
+                        monkeys[FalseThrow].Items.Add(Items[i] % MaxWorry);
+                    }
+                }
+                Items.Clear();
+                return inspections;
+            }
 
             public static Monkey Parse(string input)
             {
@@ -98,12 +130,12 @@ namespace AdventOfCode2022
                 string[] lines = input.SplitByLineBreak();
                 monkey.Id = (int)char.GetNumericValue(lines[0][7]);
 
-                monkey.Items = lines[1][18..].Split(",", StringSplitOptions.TrimEntries).Select(x => int.Parse(x)).ToList();
+                monkey.Items = lines[1][18..].Split(",", StringSplitOptions.TrimEntries).Select(x => long.Parse(x)).ToList();
 
                 Regex opRegex = new(@"  Operation: new = ((?:old)|(?:\d+)) ([*+/-]) ((?:old)|(?:\d+))");
                 Match opMatch = opRegex.Match(lines[2]);
-                ParameterExpression old = Expression.Parameter(typeof(int), "old");
-                Expression right = opMatch.Groups[3].Value == "old" ? old : Expression.Constant(int.Parse(opMatch.Groups[3].Value));
+                ParameterExpression old = Expression.Parameter(typeof(long), "old");
+                Expression right = opMatch.Groups[3].Value == "old" ? old : Expression.Constant(long.Parse(opMatch.Groups[3].Value));
                 var operation = opMatch.Groups[2].Value switch
                 {
                     "*" => Expression.Multiply(old, right),
@@ -112,11 +144,11 @@ namespace AdventOfCode2022
                     "/" => Expression.Divide(old, right),
                     _ => throw new InvalidOperationException()
                 };
-                monkey.Operation = Expression.Lambda<Func<int, int>>(operation, old).Compile();
+                monkey.Operation = Expression.Lambda<Func<long, long>>(operation, old).Compile();
 
                 Regex testRegex = new(@"  Test: divisible by (\d+)");
                 Match testMatch = testRegex.Match(lines[3]);
-                monkey.Test = (val) => val % int.Parse(testMatch.Groups[1].Value) == 0;
+                monkey.TestNum = int.Parse(testMatch.Groups[1].Value);
 
                 monkey.TrueThrow = (int)char.GetNumericValue(lines[4].Last());
                 monkey.FalseThrow = (int)char.GetNumericValue(lines[5].Last());
