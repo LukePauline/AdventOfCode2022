@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace AdventOfCode2022
 {
@@ -48,6 +44,35 @@ namespace AdventOfCode2022
                 output.AppendLine();
             }
             return output.ToString();
+        }
+
+        public static (int x, int y)? First<T>(this T[,] haystack, T needle)
+        {
+            for (int x = 0; x < haystack.GetLength(0); x++)
+            {
+                for (int y = 0; y < haystack.GetLength(1); y++)
+                {
+                    if (haystack[x, y].Equals(needle))
+                        return (x, y);
+                }
+            }
+            return null;
+        }
+
+        public static void Fill<T>(this T[,] arr, T value) where T : struct
+        {
+            arr.Fill(() => value);
+        }
+
+        public static void Fill<T>(this T[,] arr, Func<T> factory)
+        {
+            for (int x = 0; x < arr.GetLength(0); x++)
+            {
+                for (int y = 0; y < arr.GetLength(1); y++)
+                {
+                    arr[x, y] = factory();
+                }
+            }
         }
     }
 }
