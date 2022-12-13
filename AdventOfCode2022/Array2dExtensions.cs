@@ -46,17 +46,29 @@ namespace AdventOfCode2022
             return output.ToString();
         }
 
-        public static (int x, int y)? First<T>(this T[,] haystack, T needle)
+        public static (int x, int y)? FirstIndex<T>(this T[,] haystack, Func<T, bool> predicate)
         {
             for (int x = 0; x < haystack.GetLength(0); x++)
             {
                 for (int y = 0; y < haystack.GetLength(1); y++)
                 {
-                    if (haystack[x, y].Equals(needle))
+                    if (predicate(haystack[x, y]))
                         return (x, y);
                 }
             }
             return null;
+        }
+
+        public static IEnumerable<(int x, int y)> WhereIndices<T>(this T[,] haystack, Func<T, bool> predicate)
+        {
+            for (int x = 0; x < haystack.GetLength(0); x++)
+            {
+                for (int y = 0; y < haystack.GetLength(1); y++)
+                {
+                    if (predicate(haystack[x, y]))
+                        yield return (x, y);
+                }
+            }
         }
 
         public static void Fill<T>(this T[,] arr, T value) where T : struct
