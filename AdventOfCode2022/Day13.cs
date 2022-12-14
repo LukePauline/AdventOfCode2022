@@ -38,34 +38,63 @@ namespace AdventOfCode2022
 
         public string Ex1TestResult => "13";
 
-        public string Ex2TestResult => throw new NotImplementedException();
+        public string Ex2TestResult => "140";
 
         public string Exercise1(StreamReader input)
         {
             int sum = 0;
-            var pairs = Parse(input);
-            for (int i = 0; i < pairs.Length; i++)
+            var packets = Parse(input);
+            for (int i = 0; i < packets.Length; i += 2)
             {
-                if (CompareLists(pairs[i].left, pairs[i].right).Value)
-                    sum += i + 1;
+                if (PacketComparer.CompareLists(packets[i], packets[i + 1]).Value)
+                    sum += i / 2 + 1;
             }
             return sum.ToString();
         }
 
         public string Exercise2(StreamReader input)
         {
-            throw new NotImplementedException();
+            var packets = new List<object[]>(Parse(input))
+            {
+                new object[] { new object[] { 2 } },
+                new object[] { new object[] { 6 } }
+            };
+
+            packets.Sort(new PacketComparer());
+
+            int distressCall2 = -1;
+            int distressCall6 = -1;
+            for (int i = 0; i < packets.Count; i++)
+            {
+                string p = StringifyPacket(packets[i]);
+                if (p == "[[2]]")
+                    distressCall2 = i + 1;
+                else if (p == "[[6]]")
+                    distressCall6 = i + 1;
+            }
+            return (distressCall2 * distressCall6).ToString();
         }
 
-        private (object[] left, object[] right)[] Parse(StreamReader input)
+
+        private string StringifyPacket(object[] packet)
         {
-            var pairs = input.ReadToEnd().SplitByEmptyLine();
-            return pairs.Select(pair =>
+            string line = "[";
+            foreach (var item in packet)
             {
-                var lines = pair.SplitByLineBreak().Select(x => new Queue<char>(x)).ToArray();
-                return (ParseList(lines[0]).ToArray(), ParseList(lines[1]).ToArray());
-            }).ToArray();
+                if (item is int)
+                    line += item.ToString();
+                if (item is object[] obj)
+                    line += StringifyPacket(obj);
+                line += ",";
+            }
+            int lastComma = line.LastIndexOf(',');
+            if (lastComma != -1)
+                line = line[..^1];
+            line += "]";
+            return line;
         }
+
+        private object[][] Parse(StreamReader input) => input.ReadToEnd().SplitByLineBreak(StringSplitOptions.RemoveEmptyEntries).Select(x => ParseList(new Queue<char>(x)).ToArray()).ToArray();
 
         public static IEnumerable<object> ParseList(Queue<char> line)
         {
@@ -107,37 +136,49 @@ namespace AdventOfCode2022
             return int.Parse(num);
         }
 
-        private bool? CompareLists(object[] left, object[] right)
+        private class PacketComparer : IComparer<object[]>
         {
-            for (int i = 0; i < left.Length; i++)
+            public static bool? CompareLists(object[] left, object[] right)
             {
-                if (i >= right.Length)
-                    return false;
-
-                if ((left[i], right[i]) is (int lNum, int rNum))
+                for (int i = 0; i < left.Length; i++)
                 {
-                    var result = CompareNumbers(lNum, rNum);
-                    if (result == null)
-                        continue;
-                    return result.Value;
+                    if (i >= right.Length)
+                        return false;
+
+                    if ((left[i], right[i]) is (int lNum, int rNum))
+                    {
+                        var result = CompareNumbers(lNum, rNum);
+                        if (result == null)
+                            continue;
+                        return result.Value;
+                    }
+
+                    object[] l = left[i] as object[] ?? new object[] { left[i] };
+                    object[] r = right[i] as object[] ?? new object[] { right[i] };
+                    bool? listResult = CompareLists(l, r);
+                    if (listResult.HasValue)
+                        return listResult.Value;
                 }
 
-                object[] l = left[i] as object[] ?? new object[] { left[i] };
-                object[] r = right[i] as object[] ?? new object[] { right[i] };
-                bool? listResult = CompareLists(l, r);
-                if (listResult.HasValue)
-                    return listResult.Value;
+                return right.Length > left.Length ? true : null;
             }
 
-            return right.Length > left.Length ? true : null;
+            private static bool? CompareNumbers(int left, int right) => Math.Sign(left - right) switch
+            {
+                -1 => true,
+                0 => null,
+                1 => false,
+                _ => throw new NotImplementedException()
+            };
+            public int Compare(object[] x, object[] y)
+            {
+                return CompareLists(x, y) switch
+                {
+                    true => -1,
+                    null => 0,
+                    false => 1
+                };
+            }
         }
-
-        private bool? CompareNumbers(int left, int right) => Math.Sign(left - right) switch
-        {
-            -1 => true,
-            0 => null,
-            1 => false,
-            _ => throw new NotImplementedException()
-        };
     }
 }
