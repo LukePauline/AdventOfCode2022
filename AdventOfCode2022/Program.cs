@@ -2,7 +2,7 @@
 using System.Reflection;
 using static AdventOfCode2022.InputHelpers;
 
-int dayNo = 13;//DateTime.UtcNow.Day;
+int dayNo = DateTime.UtcNow.Day;
 
 Assembly assembly = Assembly.GetExecutingAssembly();
 Type tDay = assembly.GetTypes().Where(t => t.IsAssignableTo(typeof(IDay))).Single(t => t.Name == $"Day{dayNo}");
