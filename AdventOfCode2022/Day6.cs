@@ -12,20 +12,20 @@ namespace AdventOfCode2022
 
         public string TestInput => "mjqjpqmgbljsphdztnvjfqwrcgsmlb";
 
-        public string Ex1TestResult => "7";
+        public object Ex1TestResult => 7;
 
-        public string Ex2TestResult => "19";
+        public object Ex2TestResult => 19;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             string parsed = input.ReadToEnd();
-            return (Enumerable.Range(0, parsed.Length).First(i => parsed.Substring(i, 4).Distinct().Count() == 4) + 4).ToString();
+            return (Enumerable.Range(0, parsed.Length).First(i => parsed.Substring(i, 4).Distinct().Count() == 4) + 4);
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             string parsed = input.ReadToEnd();
-            return (Enumerable.Range(0, parsed.Length).First(i => parsed.Substring(i, 14).Distinct().Count() == 14) + 14).ToString();
+            return (Enumerable.Range(0, parsed.Length).First(i => parsed.Substring(i, 14).Distinct().Count() == 14) + 14);
         }
     }
 }

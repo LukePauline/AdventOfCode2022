@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text.RegularExpressions;
+using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
@@ -37,11 +38,11 @@ namespace AdventOfCode2022
                 If false: throw to monkey 1
             """;
 
-        public string Ex1TestResult => "10605";
+        public object Ex1TestResult => 10605;
 
-        public string Ex2TestResult => "2713310158";
+        public object Ex2TestResult => 2713310158;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             var monkeys = Parse(input);
             int[] inspections = new int[monkeys.Count];
@@ -52,10 +53,10 @@ namespace AdventOfCode2022
                     inspections[m] += monkeys[m].InpsectItems(monkeys);
                 }
             }
-            return inspections.OrderByDescending(x => x).Take(2).Aggregate(1, (a, b) => a * b).ToString();
+            return inspections.OrderByDescending(x => x).Take(2).Aggregate(1, (a, b) => a * b);
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             var monkeys = Parse(input);
             Monkey.MaxWorry = monkeys.Select(x => x.Value.TestNum).Aggregate(1, (a, b) => a * b);
@@ -67,7 +68,7 @@ namespace AdventOfCode2022
                     inspections[m] += monkeys[m].InpsectItemsEx2(monkeys);
                 }
             }
-            return inspections.OrderByDescending(x => x).Take(2).Aggregate(1, (long a, long b) => a * b).ToString();
+            return inspections.OrderByDescending(x => x).Take(2).Aggregate(1, (long a, long b) => a * b);
         }
 
         private Dictionary<int, Monkey> Parse(StreamReader input)

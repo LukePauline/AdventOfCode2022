@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
@@ -159,9 +160,9 @@ namespace AdventOfCode2022
             noop
             """;
 
-        public string Ex1TestResult => "13140";
+        public object Ex1TestResult => "13140";
 
-        public string Ex2TestResult => """
+        public object Ex2TestResult => """
             ##..##..##..##..##..##..##..##..##..##..
             ###...###...###...###...###...###...###.
             ####....####....####....####....####....
@@ -170,7 +171,7 @@ namespace AdventOfCode2022
             #######.......#######.......#######.....
             """;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             var instructions = Parse(input);
             Dictionary<int, int> process = ExecuteInstructions(instructions);
@@ -182,10 +183,10 @@ namespace AdventOfCode2022
                 GetRegisterValue(process, 140) * 140,
                 GetRegisterValue(process, 180) * 180,
                 GetRegisterValue(process, 220) * 220
-            }.Sum().ToString();
+            }.Sum();
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             var instructions = Parse(input);
             Dictionary<int, int> process = ExecuteInstructions(instructions);

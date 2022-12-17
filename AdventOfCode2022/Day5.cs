@@ -23,11 +23,11 @@ namespace AdventOfCode2022
             move 1 from 1 to 2
             """;
 
-        public string Ex1TestResult => "CMZ";
+        public object Ex1TestResult => "CMZ";
 
-        public string Ex2TestResult => "MCD";
+        public object Ex2TestResult => "MCD";
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             var (stacks, moves) = Parse(input);
             foreach (var move in moves)
@@ -43,7 +43,7 @@ namespace AdventOfCode2022
             return top;
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             var (stacks, moves) = Parse(input);
             foreach (var move in moves)

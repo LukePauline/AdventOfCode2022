@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
@@ -36,11 +37,11 @@ namespace AdventOfCode2022
             [1,[2,[3,[4,[5,6,0]]]],8,9]
             """;
 
-        public string Ex1TestResult => "13";
+        public object Ex1TestResult => 13;
 
-        public string Ex2TestResult => "140";
+        public object Ex2TestResult => 140;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             int sum = 0;
             var packets = Parse(input);
@@ -49,10 +50,10 @@ namespace AdventOfCode2022
                 if (PacketComparer.CompareLists(packets[i], packets[i + 1]).Value)
                     sum += i / 2 + 1;
             }
-            return sum.ToString();
+            return sum;
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             var packets = new List<object[]>(Parse(input))
             {
@@ -72,7 +73,7 @@ namespace AdventOfCode2022
                 else if (p == "[[6]]")
                     distressCall6 = i + 1;
             }
-            return (distressCall2 * distressCall6).ToString();
+            return (distressCall2 * distressCall6);
         }
 
 

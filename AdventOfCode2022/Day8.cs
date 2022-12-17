@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
@@ -18,11 +19,11 @@ namespace AdventOfCode2022
             35390
             """;
 
-        public string Ex1TestResult => "21";
+        public object Ex1TestResult => 21;
 
-        public string Ex2TestResult => "8";
+        public object Ex2TestResult => 8;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             var trees = Parse(input);
             int visible = trees.GetLength(0) * 2 + trees.GetLength(1) * 2 - 4;
@@ -34,10 +35,10 @@ namespace AdventOfCode2022
                         visible++;
                 }
             }
-            return visible.ToString();
+            return visible;
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             int maxScenicScore = 0;
             var trees = Parse(input);
@@ -50,7 +51,7 @@ namespace AdventOfCode2022
                         maxScenicScore = scenicScore;
                 }
             }
-            return maxScenicScore.ToString();
+            return maxScenicScore;
         }
         private int[,] Parse(StreamReader input)
         {

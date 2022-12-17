@@ -33,11 +33,11 @@ namespace AdventOfCode2022
             7214296 k
             """;
 
-        public string Ex1TestResult => "95437";
+        public object Ex1TestResult => 95437;
 
-        public string Ex2TestResult => "24933642";
+        public object Ex2TestResult => 24933642;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             Directiory root = Parse(input);
 
@@ -45,21 +45,17 @@ namespace AdventOfCode2022
 
             CalcDirSize(root, directorySizes);
 
-            return directorySizes.Where(x => x <= 100000).Sum().ToString();
+            return directorySizes.Where(x => x <= 100000).Sum();
 
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             Directiory root = Parse(input);
-
             List<int> directorySizes = new();
-
             int rootSize = CalcDirSize(root, directorySizes);
             int freeSpace = 70000000 - rootSize;
-
-            return directorySizes.Where(x => x >= 30000000 - freeSpace).Min().ToString();
-
+            return directorySizes.Where(x => x >= 30000000 - freeSpace).Min();
         }
 
         private int CalcDirSize(Directiory directiory, List<int> directorySizes)

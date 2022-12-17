@@ -16,20 +16,20 @@ namespace AdventOfCode2022
             C Z
             """;
 
-        public string Ex1TestResult => "15";
+        public object Ex1TestResult => 15;
 
-        public string Ex2TestResult => "12";
+        public object Ex2TestResult => 12;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             var strategy = ParseEx1(input);
-            return strategy.Sum(x => (int)CalcResult(x.opponent, x.you) + (int)x.you).ToString();
+            return strategy.Sum(x => (int)CalcResult(x.opponent, x.you) + (int)x.you);
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             var strategy = ParseEx2(input);
-            return strategy.Sum(x => (int)CalcYou(x.opponent, x.result) + (int)x.result).ToString();
+            return strategy.Sum(x => (int)CalcYou(x.opponent, x.result) + (int)x.result);
         }
 
         private enum Shape

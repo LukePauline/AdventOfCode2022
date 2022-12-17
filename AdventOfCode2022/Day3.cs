@@ -15,18 +15,18 @@ namespace AdventOfCode2022
             CrZsJsPPZsGzwwsLwLmpwMDw
             """;
 
-        public string Ex1TestResult => "157";
+        public object Ex1TestResult => 157;
 
-        public string Ex2TestResult => "70";
+        public object Ex2TestResult => 70;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
-            return ParseEx1(input).Sum(GetItemPriority).ToString();
+            return ParseEx1(input).Sum(GetItemPriority);
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
-            return ParseEx2(input).Sum(GetItemPriority).ToString();
+            return ParseEx2(input).Sum(GetItemPriority);
         }
 
         private int GetItemPriority(char item)

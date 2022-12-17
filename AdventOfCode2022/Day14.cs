@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
-    public class Day14 : IDay
+    public partial class Day14 : IDay
     {
         public int Day => 14;
 
@@ -15,11 +11,11 @@ namespace AdventOfCode2022
             503,4 -> 502,4 -> 502,9 -> 494,9
             """;
 
-        public string Ex1TestResult => "24";
+        public object Ex1TestResult => 24;
 
-        public string Ex2TestResult => "93";
+        public object Ex2TestResult => 93;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             HashSet<Position> blockedCells = Parse(input);
             Position origin = new(500, 0);
@@ -37,13 +33,13 @@ namespace AdventOfCode2022
                     continue;
                 }
                 if (IsOutsideBoundingBox(bb, next))
-                    return count.ToString();
+                    return count;
                 curr = next;
             }
-            throw new InvalidProgramException("You done goofed");
+            throw new InvalidProgramException();
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             HashSet<Position> blockedCells = Parse(input);
             Position origin = new(500, 0);
@@ -59,14 +55,14 @@ namespace AdventOfCode2022
                     count++;
 
                     if (curr == origin)
-                        return count.ToString();
+                        return count;
 
                     curr = origin;
                     continue;
                 }
                 curr = next;
             }
-            throw new InvalidProgramException("You done goofed");
+            throw new InvalidProgramException();
         }
 
         private HashSet<Position> Parse(StreamReader input)
@@ -133,16 +129,6 @@ namespace AdventOfCode2022
         {
             var range = Enumerable.Range(0, Math.Abs(dx) + 1);
             return range.Select(x => start + Math.Sign(dx) * x);
-        }
-
-        private record Position(int X, int Y)
-        {
-            public static (int dX, int dY) operator -(Position a, Position b) => (a.X - b.X, a.Y - b.Y);
-            public static Position Parse(string input)
-            {
-                var parts = input.Split(',');
-                return new(int.Parse(parts[0]), int.Parse(parts[1]));
-            }
         }
     }
 }

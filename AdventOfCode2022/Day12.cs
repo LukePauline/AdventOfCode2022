@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2022
+﻿using AdventOfCode2022.Helpers;
+
+namespace AdventOfCode2022
 {
     public class Day12 : IDay
     {
@@ -12,11 +14,11 @@
             abdefghi
             """;
 
-        public string Ex1TestResult => "31";
+        public object Ex1TestResult => 31;
 
-        public string Ex2TestResult => "29";
+        public object Ex2TestResult => 29;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             char[,] map = Parse(input);
             var start = map.FirstIndex(x => x == 'S') ?? throw new FormatException("Start point not found");
@@ -24,10 +26,10 @@
             map[start.x, start.y] = 'a';
             map[end.x, end.y] = 'z';
 
-            return GetShortestPathLength(map, start, end).ToString();
+            return GetShortestPathLength(map, start, end);
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             char[,] map = Parse(input);
             var start = map.FirstIndex(x => x == 'S') ?? throw new FormatException("Start point not found");
@@ -37,7 +39,7 @@
 
             var candidates = map.WhereIndices(x => x == 'a');
 
-            return GetShortestPathLengthInvertedEx2(map, end, candidates).ToString();
+            return GetShortestPathLengthInvertedEx2(map, end, candidates);
         }
 
         private char[,] Parse(StreamReader input)

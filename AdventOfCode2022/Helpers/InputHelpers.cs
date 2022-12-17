@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Text;
 
-namespace AdventOfCode2022
+namespace AdventOfCode2022.Helpers
 {
     public static class InputHelpers
     {

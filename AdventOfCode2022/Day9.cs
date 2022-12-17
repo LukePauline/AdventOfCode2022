@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2022.Helpers;
 
 namespace AdventOfCode2022
 {
@@ -22,22 +23,22 @@ namespace AdventOfCode2022
             R 2
             """;
 
-        public string Ex1TestResult => "13";
+        public object Ex1TestResult => 13;
 
-        public string Ex2TestResult => "1";
+        public object Ex2TestResult => 1;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
             IEnumerable<Move> moves = Parse(input);
             IEnumerable<Point> tailPositions = TrackRope(moves, 2);
-            return tailPositions.Distinct().Count().ToString();
+            return tailPositions.Distinct().Count();
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
             IEnumerable<Move> moves = Parse(input);
             IEnumerable<Point> tailPositions = TrackRope(moves, 10);
-            return tailPositions.Distinct().Count().ToString();
+            return tailPositions.Distinct().Count();
         }
 
         private IEnumerable<Point> TrackRope(IEnumerable<Move> moves, int length)

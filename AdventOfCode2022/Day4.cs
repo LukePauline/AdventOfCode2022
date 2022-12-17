@@ -19,18 +19,18 @@ namespace AdventOfCode2022
             2-6,4-8
             """;
 
-        public string Ex1TestResult => "2";
+        public object Ex1TestResult => 2;
 
-        public string Ex2TestResult => "4";
+        public object Ex2TestResult => 4;
 
-        public string Exercise1(StreamReader input)
+        public object Exercise1(StreamReader input, bool isTest)
         {
-            return Parse(input).Count(x => x.Item1.Includes(x.Item2) || x.Item2.Includes(x.Item1)).ToString();
+            return Parse(input).Count(x => x.Item1.Includes(x.Item2) || x.Item2.Includes(x.Item1));
         }
 
-        public string Exercise2(StreamReader input)
+        public object Exercise2(StreamReader input, bool isTest)
         {
-            return Parse(input).Count(x => x.Item1.Overlaps(x.Item2)).ToString();
+            return Parse(input).Count(x => x.Item1.Overlaps(x.Item2));
         }
 
         private IEnumerable<(Area, Area)> Parse(StreamReader input)
