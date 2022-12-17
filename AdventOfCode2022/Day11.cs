@@ -73,7 +73,7 @@ namespace AdventOfCode2022
         private Dictionary<int, Monkey> Parse(StreamReader input)
         {
             var text = input.ReadToEnd();
-            var items = text.SplitByEmptyLines();
+            var items = text.SplitByEmptyLine();
             return items.Select(x => Monkey.Parse(x)).ToDictionary(m => m.Id, m => m);
         }
 
